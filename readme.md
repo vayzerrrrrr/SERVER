@@ -1,31 +1,28 @@
-## CHAT-REALTIME-UWEBSOCKETJS
+# Welcome to Colyseus!
 
-Es un proyecto personal acompañado de un conjunto de video tutoriales en youtube.
-* Videos:
-1   - https://www.youtube.com/watch?v=g68qEPoLvAI&t=521s
-2.1 - https://www.youtube.com/watch?v=yJNeMV_MRRU
-2.2 - https://www.youtube.com/watch?v=50kOebbmpSQ
-2.3 - https://www.youtube.com/watch?v=mpdbLIPEH4I
+This project has been created using [⚔️ `create-colyseus-app`](https://github.com/colyseus/create-colyseus-app/) - an npm init template for kick starting a Colyseus project in TypeScript.
 
-La intención de desarrollar este proyecto fue el experimentar con las tecnologia uwebsockets, por un articulo publicado en medium que me motivo a probar, y al no encontrar información en español como tan especifica de la implementacíon basica, me surgio la idea de hacer unos videos tutoriales explicando a grandes rasgos la implementación basica.
+[Documentation](http://docs.colyseus.io/)
 
-Por defecto se usa docker para facilitar el proceso de desarrollo y despligue, hace uso de dos imagenes de dockerhub, node y mongo.
+## :crossed_swords: Usage
 
-1# Paso : Clonar el repositorio y seleccionar
-```sh
-git clone <url-repository-github> 
-cd <repository-name>
+```
+npm start
 ```
 
-2# Ejecutar los contenedores de docker (SE REQUIERE TENER INSTALADO DOCKER EN SU EQUIPO)
+## Structure
 
-```sh
-docker-compose up -d 
-```
-El Servicio de websocket queda levantado en el puerto 5000 y El Index.html lo puede abrir desde el navegador sin ningun servidor.
-```sh
-127.0.0.1:5000
-```
+- `index.js`: main entry point, register an empty room handler and attach [`@colyseus/monitor`](https://github.com/colyseus/colyseus-monitor)
+- `src/rooms/MyRoom.js`: an empty room handler for you to implement your logic
+- `src/rooms/schema/MyRoomState.js`: an empty schema used on your room's state.
+- `loadtest/example.js`: scriptable client for the loadtest tool (see `npm run loadtest`)
+- `package.json`:
+    - `scripts`:
+        - `npm start`: runs `node index.js`
+        - `npm test`: runs mocha test suite
+        - `npm run loadtest`: runs the [`@colyseus/loadtest`](https://github.com/colyseus/colyseus-loadtest/) tool for testing the connection, using the `loadtest/example.js` script.
+- `tsconfig.json`: TypeScript configuration file
+
 
 ## License
 
