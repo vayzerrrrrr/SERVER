@@ -4,7 +4,6 @@ const decoder = new StringDecoder('utf8');
 var shortid = require('shortid');
 
 
-
 const ACTIONS = {
     MESSAGE: "message",
     CONNECT: "CONNECT",
