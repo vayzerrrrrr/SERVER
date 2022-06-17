@@ -2,9 +2,6 @@ const uWS = require('uWebSockets.js');
 const { StringDecoder } = require('string_decoder');
 const decoder = new StringDecoder('utf8');
 var shortid = require('shortid'); // изменяемая переменная
-
-const WorkerPool = require('workerpool')
-const Path = require('path')
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const ACTIONS = {
@@ -21,12 +18,10 @@ const ACTIONS = {
 
 const ROOMS = {
     GENERAL: '/LOBBY',
-    PRIVATE: '/PRIVATE'
 }
 
 let users = []; // [] значит массив, users = массив игроков
 let messages = []; // [] значит массив, messages = массив сообщений
-let poolProxy = null
 
 const CHAT = {
     addUser: (ws, user) => {
@@ -35,11 +30,20 @@ const CHAT = {
 
         //users = [...users, user.uuid]; // добавляем пользователя в массив объектов. [...users,] троиточие значит добавить к массиву
 
+        //console.log(cerf);
+
 
         ws.publish(ROOMS.GENERAL, JSON.stringify({ // уведомляем всех подключенных клиентов о новом пользователе
             action: ACTIONS.REFRESH_USERS,
             data: {
                 users: users
+            }
+        }));
+
+        ws.publish(ROOMS.GENERAL, JSON.stringify({
+            action: ACTIONS.REFRESH_MESSAGES,
+            data: {
+                messages: messages
             }
         }));
     },
@@ -76,17 +80,30 @@ const app = uWS.App({
     passphrase: '123456789'
 }).ws('/*', {
     open: (ws, req) => {
-        ws.subscribe(ROOMS.PRIVATE); // код для выполнения будет выполнен, когда клиент подключится к серверу
+        ws.subscribe(ROOMS.GENERAL); // код для выполнения будет выполнен, когда клиент подключится к серверу
     },
     message: (ws, message, isBinary) => {
         let json = JSON.parse(decoder.write(Buffer.from(message)));
-        console.log(json);
+           if (json.MSG) { // если простое сообщение
+              console.log("just message", json);
+
+              CHAT.addMessage(ws, json.MSG);
+           }
+           else { // если сообщение о подключении игрока к серверу, тогда производится запись игрока
+            if (json.CONNECT) {
+               CHAT.addUser(ws, json.CONNECT)
+
+               console.log("another", json);
+            }
+           }
+
     },
     close: (ws, code, message) => {
         
         CHAT.closeUser(app, ws);
     }
 });
+
 
 
 
