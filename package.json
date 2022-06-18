@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "server4.js",
   "scripts": {
-    "start": "npm start"
+    "start": "node server4.js"
   },
   "keywords": [],
   "author": "",
