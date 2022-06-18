@@ -18,4 +18,4 @@ webSocketServer.clients.forEach(client => client.send(m));
    ws.send('Hi there, I am a WebSocket server');
 });
 
-server.listen(8999, () => console.log("Server started"))
+app.listen(process.env.PORT || 3000)
