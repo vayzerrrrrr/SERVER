@@ -2,6 +2,7 @@ const http = require("http");
 const express = require( "express");
 const WebSocket = require( "ws");
 
+
 const app = express();
 
 const server = http.createServer(app);
@@ -18,4 +19,4 @@ webSocketServer.clients.forEach(client => client.send(m));
    ws.send('Hi there, I am a WebSocket server');
 });
 
-server.listen(8999, () => console.log("Server started"))
+server.listen(process.env.PORT|| '3000');
